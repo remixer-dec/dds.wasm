@@ -1,0 +1,30 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "standard"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+  "ignorePatterns": [
+    "*.min.js",
+    "dist/*",
+    "public/*",
+    "node_modules/**/*.js"
+  ],
+  "globals": {
+    "Module": true
+  },
+  "rules": {
+    "indent": ["error", 2],
+    "semi": ["error", "never"],
+    "no-labels": ["error", {"allowLoop": true}],
+    "object-curly-spacing": ["error", "never"],
+    "space-before-function-paren": ["error", "never"],
+    "no-useless-constructor": "off"
+  }
+}

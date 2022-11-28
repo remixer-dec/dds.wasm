@@ -1,0 +1,3 @@
+[submodule "lib/dds"]
+	path = lib/dds
+	url = git@github.com:dfranx/DDS.git
