@@ -2,6 +2,7 @@
   "name": "dds.wasm",
   "private": true,
   "version": "0.0.1",
+  "main": "src/dds2img.js",
   "scripts": {
     "dev": "npx vite",
     "compile": "emcc -O3 -s WASM=1 -s EXPORT_ES6=1 -s MODULARIZE=1 -g0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -I dds/ src/wrapper.c  lib/dds/dds.c -o public/dds.js",
