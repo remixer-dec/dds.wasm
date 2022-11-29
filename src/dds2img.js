@@ -18,7 +18,7 @@ export const isReady = new Promise((ready) => {
     })
 })
 
-export async function getDDSImageURL(path) {
+export async function getDDSImage(path, outputFormat = 'url') {
   let ddsData = await fetch(path)
   ddsData = await ddsData.arrayBuffer()
   ddsData = new Uint8Array(ddsData)
@@ -37,7 +37,7 @@ export async function getDDSImageURL(path) {
   const image = await loadImage(resultView, api.get_width(), api.get_height(), api.get_size())
   api.clean(buf)
   api.clean(api.get_pointer())
-  return URL.createObjectURL(image)
+  return outputFormat === 'url' ? URL.createObjectURL(image) : image
 }
 
 async function loadImage(buffer, w, h, size) {
