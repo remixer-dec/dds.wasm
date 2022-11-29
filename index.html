@@ -11,9 +11,23 @@
       height: 256px;
       background-color: #f0f0f0;
     }
+    .viewer {
+      background: rgba(207, 210, 207, .4);
+    }
   </style>
 </head>
-<body></body>
+<body>
+  <div class="viewer">
+		<label for="selector">Select DDS file to preview</label>
+    <input id="selector" type="file">
+    <div>
+      <img id="preview">
+    </div>
+  </div>
+  <hr>Compatibility test:<br>
+</body>
 </html>
 <script type="module" src="src/demo.js"></script>
+<script type="module" src="src/viewer.js"></script>
+
 
