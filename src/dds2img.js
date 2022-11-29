@@ -36,6 +36,7 @@ export async function getDDSImageURL(path) {
 
   const image = await loadImage(resultView, api.get_width(), api.get_height(), api.get_size())
   api.clean(buf)
+  api.clean(api.get_pointer())
   return URL.createObjectURL(image)
 }
 
