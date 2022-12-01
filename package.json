@@ -1,13 +1,30 @@
 {
   "name": "dds.wasm",
-  "private": true,
-  "version": "0.0.1",
-  "main": "src/dds2img.js",
+  "description": "A webassembly wrapper that allows to view dds images in the browser",
+  "version": "0.0.2",
+  "license": "MIT",
+  "files": ["bundle"],
+  "main": "./bundle/dds.wasm-umd.js",
+  "module": "./bundle/dds.wasm-es.js",
+  "exports": {
+    ".": {
+      "require": "./bundle/dds.wasm-umd.js",
+      "import": "./bundle/dds.wasm-es.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remixer-dec/dds.wasm.git"
+  },
+  "author": "Remixer Dec",
   "scripts": {
     "dev": "npx vite",
-    "compile": "emcc -O3 -s WASM=1 -s EXPORT_ES6=1 -s MODULARIZE=1 -g0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -I dds/ src/wrapper.c  lib/dds/dds.c -o public/dds.js",
+    "compile": "emcc -O3 -s WASM=1 -s EXPORT_ES6=1 -s MODULARIZE=1 -g0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -I dds/ src/wrapper.c  lib/dds/dds.c -o lib/generated/dds.js",
     "build": "npx vite build",
-    "preview": "npx vite preview"
+    "build-lib": "npx vite build --config vite-lib.config.js --outDir bundle/",
+    "preview": "npx vite preview",
+    "create-container": "docker run -d --name emsdk2 -v $PWD:/mnt  rickardp/emscripten-devcontainer:2.0.12 sleep Infinity",
+    "update-container": "docker exec emsdk2 bash -c \"apt update && apt install tar && cd /emsdk/ && git fetch && git checkout main && git pull && ./emsdk install latest && ./emsdk activate latest && echo 'source /emsdk/emsdk_env.sh' >> ~/.bashrc\""
   },
   "devDependencies": {
     "eslint": "^8.28.0",

@@ -12,6 +12,8 @@
   },
   "ignorePatterns": [
     "*.min.js",
+    "lib/*",
+    "bundle/*",
     "dist/*",
     "public/*",
     "node_modules/**/*.js"

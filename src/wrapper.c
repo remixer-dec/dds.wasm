@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "../lib/dds/dds.h"
 
-int result[4];
+int result[5];
 dds_image_t img;
 
 EMSCRIPTEN_KEEPALIVE
@@ -17,6 +17,7 @@ void call_load_wrapper(const char* data, long data_length)
     result[1] = size;
     result[2] = image->header.width;
     result[3] = image->header.height;
+    result[4] = image->header.pixel_format.rgb_bit_count;
     img = image;
 
 }
@@ -50,4 +51,9 @@ int get_width() {
 EMSCRIPTEN_KEEPALIVE
 int get_height() {
     return result[3];
+}
+
+EMSCRIPTEN_KEEPALIVE
+int get_depth() {
+    return result[4];
 }

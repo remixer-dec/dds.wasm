@@ -1,43 +1,50 @@
-import initModule from '../public/dds.js'
-let api, WASM
+import initModule from '../lib/generated/dds.js'
+let API, WASM
 // eslint-disable-next-line promise/param-names
 export const isReady = new Promise((ready) => {
   initModule().then(
     async wasmModule => {
       WASM = wasmModule
-      api = {
+      API = {
         alloc: WASM.cwrap('create_buffer', 'number', ['number']),
         load: WASM.cwrap('call_load_wrapper', '', ['array', 'number']),
-        get_pointer: WASM.cwrap('get_pointer', 'number', []),
-        get_size: WASM.cwrap('get_size', 'number', []),
-        get_width: WASM.cwrap('get_width', 'number', []),
-        get_height: WASM.cwrap('get_height', 'number', []),
+        getPointer: WASM.cwrap('get_pointer', 'number', []),
+        getSize: WASM.cwrap('get_size', 'number', []),
+        getWidth: WASM.cwrap('get_width', 'number', []),
+        getHeight: WASM.cwrap('get_height', 'number', []),
+        getDepth: WASM.cwrap('get_depth', 'number', []),
         clean: WASM.cwrap('destroy_buffer', '', ['number'])
       }
       ready()
     })
 })
 
-export async function getDDSImage(path, outputFormat = 'url') {
+export async function getDDSImage(path, options = {outputFormat: 'url', fixTransparency: true}) {
   let ddsData = await fetch(path)
   ddsData = await ddsData.arrayBuffer()
   ddsData = new Uint8Array(ddsData)
 
-  const buf = api.alloc(ddsData.length)
+  const buf = API.alloc(ddsData.length)
   WASM.HEAPU8.set(ddsData, buf)
 
-  api.load(buf, ddsData.length)
+  API.load(buf, ddsData.length)
 
-  const resultView = new Uint8Array(
+  const metadata = {width: API.getWidth(), height: API.getHeight(), depth: API.getDepth()}
+
+  let resultView = new Uint8Array(
     WASM.HEAPU8.buffer,
-    api.get_pointer(),
-    api.get_size()
+    API.getPointer(),
+    API.getSize()
   )
 
-  const image = await loadImage(resultView, api.get_width(), api.get_height(), api.get_size())
-  api.clean(buf)
-  api.clean(api.get_pointer())
-  return outputFormat === 'url' ? URL.createObjectURL(image) : image
+  if (metadata.depth === 0 && options.fixTransparency) {
+    resultView = resultView.map((x, i) => (i > 0 && i % 4 === 3) ? 255 : x)
+  }
+  const image = await loadImage(resultView, metadata.width, metadata.height, API.getSize())
+  API.clean(buf)
+  API.clean(API.getPointer())
+  if (!image) return false
+  return options.outputFormat === 'url' ? URL.createObjectURL(image) : {blob: image, ...metadata}
 }
 
 async function loadImage(buffer, w, h, size) {
