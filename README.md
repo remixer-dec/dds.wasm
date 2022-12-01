@@ -21,9 +21,11 @@ ddsLoader.isReady.then(async () => {
 
 ### Setup
 - clone the repo `git clone https://github.com/remixer-dec/dds.wasm`
+- update submodule `git submodule update --init --recursive`
 - install the project `npm install`
 - start the web server `npm run dev`
-- build for production `npm run build`
+- build the demo for production `npm run build`
+- build library for production `npm run build-lib`
 
 ### Rebuilding wasm files
 - fix the c library dds.c, replace `#include <dds/dds.c>` with `#include "dds.c"`

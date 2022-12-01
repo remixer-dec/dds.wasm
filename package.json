@@ -23,8 +23,9 @@
     "build": "npx vite build",
     "build-lib": "npx vite build --config vite-lib.config.js --outDir bundle/",
     "preview": "npx vite preview",
-    "create-container": "docker run -d --name emsdk2 -v $PWD:/mnt  rickardp/emscripten-devcontainer:2.0.12 sleep Infinity",
-    "update-container": "docker exec emsdk2 bash -c \"apt update && apt install tar && cd /emsdk/ && git fetch && git checkout main && git pull && ./emsdk install latest && ./emsdk activate latest && echo 'source /emsdk/emsdk_env.sh' >> ~/.bashrc\""
+    "create-container": "docker run -d --name emsdk -v $PWD:/mnt  rickardp/emscripten-devcontainer:2.0.12 sleep Infinity",
+    "update-container": "docker exec emsdk bash -c \"apt update && apt install tar && cd /emsdk/ && git fetch && git checkout main && git pull && ./emsdk install latest && ./emsdk activate latest && echo 'source /emsdk/emsdk_env.sh' >> ~/.bashrc\"",
+    "build-pages": "npx vite build --base=./ && mv dist/ /tmp/dist && git checkout gh-pages && rm -rf ./assets && mv /tmp/dist/* ."
   },
   "devDependencies": {
     "eslint": "^8.28.0",
