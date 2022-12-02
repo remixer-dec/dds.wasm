@@ -1,7 +1,7 @@
 {
   "name": "dds.wasm",
   "description": "A webassembly wrapper that allows to view dds images in the browser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "files": ["bundle"],
   "main": "./bundle/dds.wasm-umd.js",
@@ -25,7 +25,7 @@
     "preview": "npx vite preview",
     "create-container": "docker run -d --name emsdk -v $PWD:/mnt  rickardp/emscripten-devcontainer:2.0.12 sleep Infinity",
     "update-container": "docker exec emsdk bash -c \"apt update && apt install tar && cd /emsdk/ && git fetch && git checkout main && git pull && ./emsdk install latest && ./emsdk activate latest && echo 'source /emsdk/emsdk_env.sh' >> ~/.bashrc\"",
-    "build-pages": "npx vite build --base=./ && mv dist/ /tmp/dist && git checkout gh-pages && rm -rf ./assets && mv /tmp/dist/* ."
+    "build-pages": "npx vite build --base=./ && mv dist/ /tmp/ && git checkout gh-pages && rm -rf ./assets && mv /tmp/dist/* ."
   },
   "devDependencies": {
     "eslint": "^8.28.0",
