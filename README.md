@@ -14,18 +14,18 @@ ddsLoader.isReady.then(async () => {
   // wasm runtime is ready
   const url = await ddsLoader.getDDSImage('path/to/file.dds')
   // returns a string with url of converted displayable image.
-  // you can use set it in <img>'s src attribute to see the image
-  // to get image metadata and bytes, use the second argument with {outputFormat: 'data'}
+  // you can set it in <img>'s src attribute to see the image
+  // to get image metadata and bytes, add the second argument {outputFormat: 'data'}
 })
 ```
 
 ### Setup
 - clone the repo `git clone https://github.com/remixer-dec/dds.wasm`
-- update submodule `git submodule update --init --recursive`
+- update dds library `git submodule update --init --recursive`
 - install the project `npm install`
 - start the web server `npm run dev`
 - build the demo for production `npm run build`
-- build library for production `npm run build-lib`
+- build the library for production `npm run build-lib`
 
 ### Rebuilding wasm files
 - fix the c library dds.c, replace `#include <dds/dds.c>` with `#include "dds.c"`
