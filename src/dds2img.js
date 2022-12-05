@@ -12,14 +12,15 @@ export const isReady = new Promise((ready) => {
         getSize: WASM.cwrap('get_size', 'number', []),
         getWidth: WASM.cwrap('get_width', 'number', []),
         getHeight: WASM.cwrap('get_height', 'number', []),
-        getDepth: WASM.cwrap('get_depth', 'number', []),
+        getFlags: WASM.cwrap('get_format_flags', 'boolean', []),
         clean: WASM.cwrap('destroy_buffer', '', ['number'])
       }
       ready()
     })
 })
 
-export async function getDDSImage(path, options = {outputFormat: 'url', fixTransparency: true}) {
+export async function getDDSImage(path, options) {
+  options = {outputFormat: 'url', transparency: false, ...options}
   let ddsData = await fetch(path)
   ddsData = await ddsData.arrayBuffer()
   ddsData = new Uint8Array(ddsData)
@@ -29,7 +30,7 @@ export async function getDDSImage(path, options = {outputFormat: 'url', fixTrans
 
   API.load(buf, ddsData.length)
 
-  const metadata = {width: API.getWidth(), height: API.getHeight(), depth: API.getDepth()}
+  const metadata = {width: API.getWidth(), height: API.getHeight(), flags: API.getFlags()}
 
   let resultView = new Uint8Array(
     WASM.HEAPU8.buffer,
@@ -37,7 +38,7 @@ export async function getDDSImage(path, options = {outputFormat: 'url', fixTrans
     API.getSize()
   )
 
-  if (metadata.depth === 0 && options.fixTransparency) {
+  if (!options.transparency) {
     resultView = resultView.map((x, i) => (i > 0 && i % 4 === 3) ? 255 : x)
   }
   const image = await loadImage(resultView, metadata.width, metadata.height, API.getSize())

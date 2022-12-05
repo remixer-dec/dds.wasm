@@ -17,7 +17,7 @@ void call_load_wrapper(const char* data, long data_length)
     result[1] = size;
     result[2] = image->header.width;
     result[3] = image->header.height;
-    result[4] = image->header.pixel_format.rgb_bit_count;
+    result[4] = image->header.pixel_format.flags;
     img = image;
 
 }
@@ -54,6 +54,6 @@ int get_height() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-int get_depth() {
+int get_format_flags() {
     return result[4];
 }

@@ -16,6 +16,7 @@ ddsLoader.isReady.then(async () => {
   // returns a string with url of converted displayable image.
   // you can set it in <img>'s src attribute to see the image
   // to get image metadata and bytes, add the second argument {outputFormat: 'data'}
+  // to toggle transparency, add {transparency: true} in the second argument
 })
 ```
 

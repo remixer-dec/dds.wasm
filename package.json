@@ -1,7 +1,7 @@
 {
   "name": "dds.wasm",
   "description": "A webassembly wrapper that allows to view dds images in the browser",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "files": ["bundle"],
   "main": "./bundle/dds.wasm-umd.js",
@@ -19,7 +19,7 @@
   "author": "Remixer Dec",
   "scripts": {
     "dev": "npx vite",
-    "compile": "emcc -O3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s EXPORT_ES6=1 -s MODULARIZE=1 -g0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -I dds/ src/wrapper.c  lib/dds/dds.c -o lib/generated/dds.js",
+    "compile": "emcc -O3 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s EXPORT_ES6=1 -s MODULARIZE=1 -g0 -s EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -I dds/ src/wrapper.c  lib/dds/dds.c -o lib/generated/dds.js",
     "build": "npx vite build",
     "build-lib": "npx vite build --config vite-lib.config.js --outDir bundle/",
     "preview": "npx vite preview",
